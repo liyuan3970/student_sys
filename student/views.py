@@ -6,18 +6,20 @@ from django.http import HttpResponseRedirect
 from .forms import StudentForm
 from .models import Student
 
+
 # Create your views here.
 def index(requset):
-    students = Student.objects.all()
-    if request.method=='POST':
-        form=StudentForm(requset.PSOT)
+
+    students = Student.get_all()
+    if requset.method == 'POST':
+        form = StudentForm(requset.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))
     else:
         form = StudentForm()
     context = {
-        'students':students,
-        'form':form,
+        'students': students,
+        'form': form,
     }
-    return render(requset,'index.html',context=context)
+    return render(requset, 'index.html', context=context)
